@@ -1,6 +1,8 @@
 /** Command-line tool to generate Markov text. */
 const fs = require('fs');
 const axios = require('axios');
+const stripHtml = require("string-strip-html");
+
 const { MarkovMachine } = require('./markov');
 
 
@@ -20,6 +22,7 @@ else if(process.argv[2]=='url') {
 
 async function getWebData(url){
     let page = await axios.get(url);
-    let markov = new MarkovMachine(page.data);
+    let cleanedPage = stripHtml(page.data).result;
+    let markov = new MarkovMachine(cleanedPage);
     console.log(markov.makeText());
 }
