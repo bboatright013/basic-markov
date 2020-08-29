@@ -41,7 +41,15 @@ class MarkovMachine {
   makeText(numWords = 100) {
     let keys = Object.keys(this.chains);
     let tmpArray = [];
-    tmpArray.push(keys[0]);
+    let regex = /([A-Z])\w+/;
+    let start;
+    for(let y = 0; y < keys.length; y++){
+      if(regex.test(keys[y])){
+        start = keys[y];
+        break;
+      }
+    }
+    tmpArray.push(start);
     for(let i = 0; i < numWords; i++){
       if(this.chains[tmpArray[i]] != undefined){
         let random = getRandomNextWord(this.chains[tmpArray[i]].length);
